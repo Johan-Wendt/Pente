@@ -108,11 +108,20 @@ function colorMiddleSquares() {
         xPos++;
     }
 
+    xPos = 6;
+    yPos = 7;
+
+    while (yPos < 11) {
+        var cell = table.rows[yPos].cells[xPos];
+        $(cell).css("border-right-color","red");
+        yPos++;
+    }
+
 }
 
 function loadImages() {
-    playerOneImage = "url('Pictures/emerald.jpg')";
-    playerTwoImage = "url('Pictures/ruby.jpeg')";
+    playerOneImage = "url('Pictures/emerald.png')";
+    playerTwoImage = "url('Pictures/ruby.png')";
 }
 
 var cell = function (row, column, element) {

@@ -1,6 +1,7 @@
 body {
-   // background-repeat: no-repeat;
-   // background-size:cover;
+    background-repeat: repeat;
+    background-size:cover;
+    background-image:url('Pictures/background.jpg');
    // overflow-x: hidden;
    // overflow-y: hidden;
 
@@ -43,6 +44,18 @@ body {
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
 }
+#rightDiv {
+    position:absolute;
+    top:50%;
+    left:50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+
+    -ms-transform: translateX(300px) translateY(-50%);
+    -webkit-transform: translateX(300px) translateY(-50%);
+    transform: translateX(300px) translateY(-50%);
+}
 
 #invisibleGrid td{
     border: 1px solid rgba(255, 0, 0, 0);
@@ -64,4 +77,15 @@ table {
     margin-left:auto;
     margin-right:auto;
     width:960px;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
