@@ -36,6 +36,15 @@ body {
 }
 
 
+#winnerDiv {
+    position:absolute;
+    top:50%;
+    left:50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
 .gridDiv {
     position:absolute;
     top:50%;
@@ -88,4 +97,16 @@ table {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin-left:10px;
+}
+
+p {
+    padding: 0px 30px 0px 30px;
+    color: pink;
+    font-family: courier;
+    font-size: 160%;
+}
+
+h1 {
+    font-size: 4em;
 }

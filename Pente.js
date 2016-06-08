@@ -5,6 +5,7 @@
 var visibleGrid, invisibleGrid, playerTurn, playerOne, playerTwo, notPlayerTurn, middleSquares, playerOneImage, playerTwoImage;
 var firstTurn = true;
 var secondTurnOver = false;
+var gameOver = false;
 
 
 $(document).ready(function () {
@@ -47,13 +48,6 @@ function gamegrid(rows, cols, clickable, callback) {
 function createInvisibleGrid() {
     invisibleGrid = gamegrid(19, 19, true, function (el, row, col, i) {
         occupyCell(row, col, el);
-    //    el.style.backgroundColor = playerTurn.token;
-      //  console.log("added cell in row" + playerTurn.cells[(playerTurn.cells.length - 1)].row);
-
-      //  el.className = 'clicked';
-      //  if (lastClicked) lastClicked.className = '';
-      //  lastClicked = el;
-
 
     });
     $("#invisibleGridDiv").append(invisibleGrid);
@@ -171,29 +165,33 @@ var player = function (name, token) {
                         inARow++;
                         currentY += yDir;
                         currentX += xDir;
-                        if (inARow == 5) {
-                            winner = true;
-                            searching = false;
-                        }
+
                         if(!playerOne.occupiesCell(currentY, currentX) && !playerTwo.occupiesCell(currentY, currentX)) {
                             searching = false;
                         }
                         else if(!me.occupiesCell(currentY, currentX)) {
                             opponnentPieces.push(new cell(currentY, currentX));
                         }
+                        if (inARow == 5 && opponnentPieces.length == 0) {
+                            winner = true;
+                            searching = false;
+                            gameIsOver(me);
+                        }
                         if(inARow == 3) {
-                            console.log(opponnentPieces.length);
                             if(opponnentPieces.length == 2 && me.occupiesCell(currentY, currentX)) {
                                 var oppponent = getOpponent(me);
                                 oppponent.removeFromCells(opponnentPieces[0].row, opponnentPieces[0].column);
                                 oppponent.removeFromCells(opponnentPieces[1].row, opponnentPieces[1].column);
                                 me.points ++;
+                                addPointsToBoard(me, me.points);
                                 if(me.points == 5) {
                                     winner = true;
+                                    gameIsOver(me);
                                 }
 
                             }
                             if(opponnentPieces.length > 0) {
+                                console.log("called");
                                 searching = false;
                             }
                         }
@@ -206,7 +204,6 @@ var player = function (name, token) {
                 yDir ++;
             }
         });
-        console.log("winner: " + winner);
         return winner;
 
 
@@ -221,7 +218,6 @@ var player = function (name, token) {
         this.cells.forEach(function(value, index, object) {
             if (value.row == row && value.column == column) {
                 value.element.style.backgroundImage = "";
-                console.log("Removed");
                 object.splice(index, 1);
 
             }
@@ -253,10 +249,9 @@ function changeTurn() {
 
 function occupyCell(row, column, el) {
     var alreadytaken =  cellTaken(row, column);
-    if(!alreadytaken && (!(firstTurn && !isCorrectFirstMove(row, column)))) {
+    if(!alreadytaken && (!(firstTurn && !isCorrectFirstMove(row, column))) && !gameOver) {
         if(firstTurn || !(!secondTurnOver && !isCorrectSecondMove(row, column))) {
             playerTurn.cells.push(new cell(row, column, el));
-            console.log(playerTurn.token);
             el.style.backgroundImage = playerTurn.token;
             if(playerTurn.wins() == true) {
 
@@ -320,4 +315,25 @@ function isCorrectSecondMove(row, column) {
 
 
     return allowed;
+}
+function addPointsToBoard(player, points) {
+    if(player == playerOne) {
+        $("#playerOneScore").text(points);
+    }
+    else {
+        $("#playerTwoScore").text(points);
+    }
+ }
+function gameIsOver(winner) {
+    console.log("called");
+    if(winner == playerOne) {
+        $("#winnerText").text("Green is the winner");
+        $("h1").css("color", "green");
+    }
+    else {
+        $("#winnerText").text("Red is the winner");
+        $("h1").css("color", "red");
+    }
+    gameOver = true;
+
 }
