@@ -4,6 +4,7 @@
 
 var visibleGrid, invisibleGrid, playerTurn, playerOne, playerTwo, notPlayerTurn, middleSquares, playerOneImage, playerTwoImage;
 var firstTurn = true;
+var secondTurnOver = false;
 
 
 $(document).ready(function () {
@@ -243,26 +244,31 @@ function changeTurn() {
     else {
         playerTurn = playerOne;
         notPlayerTurn = playerTwo;
+        if(firstTurn == false) {
+            secondTurnOver = true;
+        }
         firstTurn = false;
     }
 }
 
 function occupyCell(row, column, el) {
     var alreadytaken =  cellTaken(row, column);
-    if(alreadytaken == false && !(firstTurn == true && !isCorrectFirstMove(row, column))) {
-        playerTurn.cells.push(new cell(row, column, el));
-        console.log(playerTurn.token);
-        el.style.backgroundImage = playerTurn.token;
-       // "url('img_tree.png')";
-        if(playerTurn.wins() == true) {
+    if(!alreadytaken && (!(firstTurn && !isCorrectFirstMove(row, column)))) {
+        if(firstTurn || !(!secondTurnOver && !isCorrectSecondMove(row, column))) {
+            playerTurn.cells.push(new cell(row, column, el));
+            console.log(playerTurn.token);
+            el.style.backgroundImage = playerTurn.token;
+            if(playerTurn.wins() == true) {
 
+            }
+
+
+
+            else {
+                changeTurn();
+            }
         }
 
-
-
-        else {
-            changeTurn();
-        }
 
     }
 }
@@ -297,7 +303,18 @@ function isCorrectFirstMove(row, column) {
     var allowed = false;
     var inMiddle = isInMiddleSquares(row, column);
 
-    if((playerTurn == playerOne && inMiddle) || (playerTurn == playerTwo && !inMiddle)) {
+    if((playerTurn == playerOne && inMiddle) || (playerTurn == playerTwo)) {
+        allowed =true;
+    }
+
+
+    return allowed;
+}
+function isCorrectSecondMove(row, column) {
+    var allowed = false;
+    var inMiddle = isInMiddleSquares(row, column);
+
+    if((playerTurn == playerOne && !inMiddle) || (playerTurn == playerTwo)) {
         allowed =true;
     }
 
