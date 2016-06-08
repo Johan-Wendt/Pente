@@ -178,7 +178,7 @@ var player = function (name, token) {
                             gameIsOver(me);
                         }
                         if(inARow == 3) {
-                            if(opponnentPieces.length == 2 && me.occupiesCell(currentY, currentX)) {
+                            if(opponnentPieces.length == 2 && me.occupiesCell(currentY, currentX) && me.cells[me.cells.length - 1].row == currentY && me.cells[me.cells.length - 1].column == currentX) {
                                 var oppponent = getOpponent(me);
                                 oppponent.removeFromCells(opponnentPieces[0].row, opponnentPieces[0].column);
                                 oppponent.removeFromCells(opponnentPieces[1].row, opponnentPieces[1].column);
